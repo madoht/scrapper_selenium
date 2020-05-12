@@ -4,6 +4,7 @@ from selenium import webdriver
 
 driver = webdriver.Chrome('/Users/apple/Desktop/chrome/chromedriver')
 
+
 def get_last_page(url):
     driver.get(url)
     html = driver.page_source
@@ -11,6 +12,7 @@ def get_last_page(url):
     pages = soup.find("div", {"class": "s-pagination"}).find_all("a")
     last_page = pages[-2].get_text(strip = True)
     return int(last_page)
+
 
 def extract_job(html):
     title = html.find("h2", {"class": "mb4"}).find("a")["title"]
@@ -25,6 +27,7 @@ def extract_job(html):
         'link': f"https://stackoverflow.com/jobs/{job_id}"
     }
 
+
 def extract_jobs(last_page, url):
     jobs = []
     for page in range(last_page):
@@ -36,6 +39,7 @@ def extract_jobs(last_page, url):
             job = extract_job(result)
             jobs.append(job)
     return jobs
+
 
 def get_jobs(word):
     url = f"https://stackoverflow.com/jobs?q={word}&pg=i"
